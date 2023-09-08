@@ -82,6 +82,10 @@ def main():
                             note.number_three("Wow")
                         except:
                             print(Exception.args[0])
+                    else:
+                        print("Введите число 1, 2, 3, 4 или 0")
+                else:
+                    print("Введите число 1, 2, 3, 4 или 0")
         elif result == "4":
             try:
                 import Game.game
