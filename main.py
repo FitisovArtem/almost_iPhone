@@ -80,7 +80,7 @@ def main():
                             print(Exception.args[0])
                     elif menu_3 == '3':
                         try:
-                            note.number_three("Wow")
+                            note()
                         except:
                             print(Exception.args[0])
                     else:
