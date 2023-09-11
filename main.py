@@ -1,4 +1,5 @@
 import Notes.main as note
+import Sorter.sorter as sorter
 
 STOP_COMMAND = ["exit"]
 ACTION_COMMAND = ["1", "2", "3", "4"]
@@ -50,9 +51,6 @@ def main():
         if result == "1":
             print(result)
         elif result == "2":
-            print(result)
-        #Пример подменю ===========================
-        elif result == "3":
             while True:
                 print('''
                 Вас приветствует приложение "Заметки"
@@ -86,6 +84,11 @@ def main():
                         print("Введите число 1, 2, 3, 4 или 0")
                 else:
                     print("Введите число 1, 2, 3, 4 или 0")
+            print("result")
+            
+        #Пример подменю ===========================
+        elif result == "3":
+               sorter.run()
         elif result == "4":
             try:
                 import Game.game
@@ -97,5 +100,5 @@ def main():
     else:
         print("У Вас получится, попробуйте ввести цифру от 1 до 4 включительно")
 
-
-main()
+if __name__ == "__main__":
+    main()
