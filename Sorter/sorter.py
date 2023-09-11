@@ -135,7 +135,7 @@ class ReplaseFile(Normalize): # перенесення файлів до пап�
 
     def replasefile_main(self):
         for file in Scan.JPEG_IMAGES:
-            ReplaseFile.handle_pictures(file, self.self.folder / 'images' / 'JPEG')
+            ReplaseFile.handle_pictures(file, self.folder / 'images' / 'JPEG')
         for file in Scan.JPG_IMAGES:
             ReplaseFile.handle_pictures(file, self.folder / 'images' / 'JPG')
         for file in Scan.PNG_IMAGES:
@@ -217,4 +217,5 @@ def run():
     CleanFolderMain.run()
 # if __name__ == "__main__":
 #         normalize_init = Normalize()
+
 #         CleanFolderMain.run()
