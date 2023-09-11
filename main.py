@@ -1,7 +1,10 @@
 import Notes.main as note
 
 STOP_COMMAND = ["exit"]
-ACTION_COMMAND = ["1", "2", "3", "4"]
+MAIN_MENU = ["1", "2", "3", "4"]
+PHONE_BOOK_MENU = ["1", "2", "3", "0"]
+NOTES_MENU = ["1", "2", "3", "0"]
+
 
 
 def input_error(func):
@@ -25,8 +28,6 @@ def input_error(func):
                 result = func()
             except SystemExit:
                 break
-            except IndexError:
-                print("Вы ввели неправильное имя или телефон попробуйте еще...")
             except Exception as e:
                 print("Error:", e)
 
@@ -46,15 +47,14 @@ def main():
     elif not result.isnumeric():
         print("Вы ввели не положительное целое число, введите одну цифру!")
 
-    elif result in ACTION_COMMAND:
+    elif result in MAIN_MENU:
         if result == "1":
             print(result)
         elif result == "2":
             print(result)
         #Пример подменю ===========================
         elif result == "3":
-            while True:
-                print('''
+            print('''
                 Вас приветствует приложение "Заметки"
                 Вы можете воспользоваться следующими функциями:
                 --  Введите "1" - Для создания новой заметки
@@ -62,8 +62,9 @@ def main():
                 --  Введите "3" - Для вывода всех сохраненных заметок
                 --  Введите "0" - Для возвращения в Основное меню
                 ''')
+            while True:
                 menu_3 = input("Введите номер функции: ")
-                if menu_3.isnumeric():
+                if menu_3 in NOTES_MENU:
                     if menu_3 == '0':
                         break
                     elif menu_3 == '1':
@@ -96,6 +97,5 @@ def main():
 
     else:
         print("У Вас получится, попробуйте ввести цифру от 1 до 4 включительно")
-
 
 main()
