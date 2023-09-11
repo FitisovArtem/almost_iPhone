@@ -83,6 +83,8 @@ def main():
                             note.number_three("Wow")
                         except:
                             print(Exception.args[0])
+                    else:
+                        print("Введите число 1, 2, 3, 4 или 0")
                 else:
                     print("Введите число 1, 2, 3, 4 или 0")
         elif result == "4":
@@ -97,5 +99,3 @@ def main():
         print("У Вас получится, попробуйте ввести цифру от 1 до 4 включительно")
 
 main()
-
-print("OK")
