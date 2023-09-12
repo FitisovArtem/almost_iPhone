@@ -58,13 +58,11 @@ def main():
                 note.main_1()
             except:
                 print(Exception.args[0])
-        #Пример подменю ===========================
         elif result == "3":
             try:
                 sorter.run()
             except:
                 print(Exception.args[0])
-
         elif result == "4":
             try:
                 import Game.game
