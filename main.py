@@ -1,4 +1,3 @@
-import Notes.main2 as note2
 import Notes.main as note
 import Sorter.sorter as sorter
 import Weather.weather as weather
