@@ -1,11 +1,10 @@
 import Notes.main as note
 import Sorter.sorter as sorter
+import Weather.weather as weather
+from time import sleep
 
 STOP_COMMAND = ["exit"]
-MAIN_MENU = ["1", "2", "3", "4"]
-PHONE_BOOK_MENU = ["1", "2", "3", "0"]
-NOTES_MENU = ["1", "2", "3", "0"]
-
+MAIN_MENU = ["1", "2", "3", "4", "5"]
 
 
 def input_error(func):
@@ -23,10 +22,10 @@ def input_error(func):
         --  Введіть "2" - Ви відкриєте додаток "Нотатки"
         --  Введіть "3" - Ви відкриєте додаток "Сортировальик"
         --  Введіть "4" - Ви зможете насолодись грою "Бандеро Гусь"
+        --  Введіть "5" - Ви зможете дізнатись поточну погоду"
         --  Введіть "exit" - І я завершу свою роботу
         ''')
 
-        while True:
             try:
                 result = func()
             except SystemExit:
@@ -67,7 +66,13 @@ def main():
             try:
                 import Game.game
             except:
-                print(Exception)
+                print(Exception.args[0])
+        elif result == "5":
+            try:
+                weather.weather_main()
+                sleep(2)
+            except:
+                print(Exception.args[0])
         else:
             print("Oops...")
 
