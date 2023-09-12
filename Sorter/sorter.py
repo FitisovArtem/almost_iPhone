@@ -218,4 +218,4 @@ def run():
 # if __name__ == "__main__":
 #         normalize_init = Normalize()
 #         CleanFolderMain.run()
-run()
+
