@@ -4,6 +4,7 @@ import sys
 from pathlib import Path
 import shutil
 import os.path
+import os
 current_path = Path('.')
 
 
@@ -11,17 +12,17 @@ class Trans: # класс створює словник відповідност
     cyrillic_symbol = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюяєіїґ'
     latin_symbol = ("a", "b", "v", "g", "d", "e", "e", "j", "z", "i", "j", "k", "l", "m", "n", "o", "p", "r", "s", "t", "u",
                "f", "h", "ts", "ch", "sh", "sch", "", "y", "", "e", "yu", "u", "ja", "je", "ji", "g")
-    trans = {}
+    TRANS = {}
     def trans_dict(self):
         for c, l in zip(self.cyrillic_symbol, self.latin_symbol):
-            self.trans[ord(c)] = l
-            self.trans[ord(c.upper())] = l.upper()
-        return self.trans
+            self.TRANS[ord(c)] = l
+            self.TRANS[ord(c.upper())] = l.upper()
+        return self.TRANS
 
 
 class Normalize(Trans): # функція видаляє непотрібні символи з назви файлу
     def normalize(self, name: str):
-        t_name = name.translate(self.trans)
+        t_name = name.translate(self.TRANS)
         t_name = re.sub(r'[^a-zA-Z0-9.]', '_', t_name)
         return t_name
 
@@ -75,7 +76,7 @@ class Scan:  # сканування  папки та запис файлів в 
             if item.is_dir():
                 if item.name not in ('archives', 'video', 'audio', 'documents', 'images', 'MY_OTHER'):
                     self.FOLDERS.append(item)
-                    Scan.scan(item)
+                    self.scan(item)
                 continue 
 
             ext = Scan.get_extension(item.name)  
@@ -237,24 +238,46 @@ class CleanFolderMain(PrintResult): # меню користувача
         print(F'        Вас вітає сортувальник файлів!\n\
                    ')
         while True:
-            value = input(F'            -- Введіть "1" - Для сортування папки. \n\
+            value = input(F'\
+            -- Введіть "1" - Для сортування папки. \n\
             -- Введіть "0" - Для виходу в попередне меню. \n\
             >>> ')
             if value == "1":
+                current_folder = Path(os.getcwd())
                 while True:
-                    val = Path(input(F'            -- Вкажіть шлях до папки з файлами, яку потрібн відсортувати.\n\
-            -- Введіть "0" - Для виходу в попередне меню.\n\
+                    current_dir = ""
+                    for item in current_folder.iterdir():
+                        if item.is_dir():
+                            current_dir += f"                  {item.name}\n"
+                    val = Path(input(F'\
+              -- Вкажіть шлях до папки з файлами, яку потрібн відсортувати.\n\
+              -- Введіть "1" - Для сортування папки в поточній директорії({current_folder}),\n\
+              -- Введіть "0" - Для виходу в попередне меню.\n\
             >>> '))
                     if val == Path("0"):
                         break
+                    elif val == Path("1"):
+                        val = Path(input(F'\
+              -- Введіть назву папки в поточній директорії({current_folder}),\n\
+                 Cписок папок в поточній директорії\n\
+{current_dir}  \n \
+              >>> '))
+                        check = input(F'\
+            -- Введіть "1" - Для підтвердження сортування папки.{val}\n\
+            -- Введіть "0" - Для виходу в попередне меню. \n\
+            >>> ')
+                        val = current_folder / val
                     elif os.path.exists(val) == True:
-                        check = input(F'            -- Введіть "1" - Для підтвердження сортування папки.{val}\n\
+                        check = input(F'\
+            -- Введіть "1" - Для підтвердження сортування папки.{val}\n\
             -- Введіть "0" - Для виходу в попередне меню. \n\
             >>> ')
                     else:
                         print("             Помилка.Такої папки не існує ")
                         continue
                     if check == "1":
+                        t = Trans()
+                        t.trans_dict()
                         s = Scan()
                         s.scan(val)
                         r = ReplaseFile(val)
@@ -272,7 +295,7 @@ class CleanFolderMain(PrintResult): # меню користувача
             else:
                 print ("            Такої команди не існує,введіть будь ласка повторно\n\
                         ")
-
+t = Trans()
 normalize_init = Normalize()
 def run():
     CleanFolderMain.run()
