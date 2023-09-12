@@ -27,6 +27,7 @@ def input_error(func):
         --  Введіть "exit" - І я завершу свою роботу
         ''')
 
+        while True:
             try:
                 result = func()
             except SystemExit:
@@ -75,3 +76,4 @@ def main():
         print("У Вас вийде, спробуйте ввести цифру від 1 до 4 включно")
 
 main()
+
