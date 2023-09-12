@@ -3,6 +3,7 @@ from collections import UserDict
 import sys
 from pathlib import Path
 import shutil
+import os.path
 current_path = Path('.')
 
 
@@ -88,34 +89,54 @@ class Scan:  # сканування  папки та запис файлів в 
                     container.append(fullname)
                 except KeyError:
                     self.UNKNOWN.add(ext)
-                    self.MY_OTHER.append(fullname) 
-
+                    self.MY_OTHER.append(fullname)
+                
 
 class ReplaseFile(Normalize): # перенесення файлів до папок які відповідають типу фйлу
     def __init__(self, folder: Path):
         self.folder = folder
-        print(self.folder)
+    def input_error(input_func):  
+        def output_func(*args):  
+            try:
+                result = input_func(*args)
+                return result
+            except KeyError:
+                return "KeyError"
+            except ValueError:
+                return "ValueError"
+            except IndexError:
+               return "ndexError"
+            except FileNotFoundError:
+                return "FileNotFoundError"
 
+        return output_func
+    
+    @input_error
     def handle_pictures(filename: Path, target_folder: Path) -> None:
         target_folder.mkdir(exist_ok=True, parents=True)
         filename.replace(target_folder / normalize_init.normalize(filename.name))
 
+    @input_error 
     def handle_media(filename: Path, target_folder: Path) -> None:
         target_folder.mkdir(exist_ok=True, parents=True)
         filename.replace(target_folder / normalize_init.normalize(filename.name))
-
+    
+    @input_error
     def handle_audio(filename: Path, target_folder: Path) -> None:
         target_folder.mkdir(exist_ok=True, parents=True)
         filename.replace(target_folder / normalize_init.normalize(filename.name))
-
+    
+    @input_error
     def handle_documents(filename: Path, target_folder: Path) -> None:
         target_folder.mkdir(exist_ok=True, parents=True)
         filename.replace(target_folder / normalize_init.normalize(filename.name))
-
+    
+    @input_error
     def handle_other(filename: Path, target_folder: Path) -> None:
         target_folder.mkdir(exist_ok=True, parents=True)
         filename.replace(target_folder / filename.name)
-
+    
+    @input_error
     def handle_archive(filename: Path, target_folder: Path) -> None:
         target_folder.mkdir(exist_ok=True, parents=True)
         folder_for_file = target_folder / normalize_init.normalize(filename.name.replace(filename.suffix, ''))
@@ -123,16 +144,18 @@ class ReplaseFile(Normalize): # перенесення файлів до пап�
         try:
             shutil.unpack_archive(filename, folder_for_file) 
         except shutil.ReadError:
-            print('It is not archive')
+            print('Данний файл не є архівом')
             folder_for_file.rmdir()
         filename.unlink()
-
+    
+    @input_error
     def handle_folder(folder: Path):
         try:
             folder.rmdir()
         except OSError:
-            print(f"Can't delete folder: {folder}")
-
+            print(f"Не млжливо видалити архів: {folder}")
+    
+    @input_error
     def replasefile_main(self):
         for file in Scan.JPEG_IMAGES:
             ReplaseFile.handle_pictures(file, self.folder / 'images' / 'JPEG')
@@ -189,28 +212,66 @@ class ReplaseFile(Normalize): # перенесення файлів до пап�
 
         for folder in Scan.FOLDERS[::-1]:
             ReplaseFile.handle_folder(folder)
-        
 
-class CleanFolderMain: # меню користувача
+
+class PrintResult(Scan):
+    def print_result(self):
+        result_lists = (self.JPEG_IMAGES, self.JPG_IMAGES, self.PNG_IMAGES, self.SVG_IMAGES,
+    self.AVI_VIDEO, self.MP4_VIDEO, self.MOV_VIDEO, self.MKV_VIDEO,
+    self.DOC_DOCUMENTS, self.DOCX_DOCUMENTS, self.TXT_DOCUMENTS, self.PDF_DOCUMENTS, self.XLSX_DOCUMENTS,self.PPTX_DOCUMENTS,
+    self.MP3_AUDIO, self.OGG_AUDIO, self.WAV_AUDIO, self.AMR_AUDIO, self.ZIP_ARCHIVES, self.GZ_ARCHIVES, self.TAR_ARCHIVES,  
+    self.FOLDERS,
+    self.MY_OTHER)
+        print(f"                    Список знайдених файлів\n \
+              ")
+        for i in result_lists:
+            
+            for _ in i:
+                if _ :
+                    print(f"                {_}")
+        print("")
+
+
+class CleanFolderMain(PrintResult): # меню користувача
     def run():
+        print(F'        Вас вітає сортувальник файлів!\n\
+                   ')
         while True:
-            value = input(F'Вас приветствует сортировщик файлов!\n\
-Для сортировки папки, нажмите "1":\n\
-Для выхода в предыдущее меню, нажмите любую клавишу : ')
+            value = input(F'            -- Введіть "1" - Для сортування папки. \n\
+            -- Введіть "0" - Для виходу в попередне меню. \n\
+            >>> ')
             if value == "1":
-                val = Path(input(F'Введи путь к папке.Пример ввода(D://phyton/test/folder)  : '))
-                check = input(F'Вы уверены что хотите отсортировать папку {val}? Нажмите "1" \n\
-Для выхода в предыдущее меню ,нажмите любую клавишу: ')
-                if check == "1":
-                    y = Scan()
-                    y.scan(val)
-                    k = ReplaseFile(val)
-                    k.replasefile_main()
-                    print(f'Сортировка файлов виполнена')
-                else:
-                    continue
+                while True:
+                    val = Path(input(F'            -- Вкажіть шлях до папки з файлами, яку потрібн відсортувати.\n\
+            -- Введіть "0" - Для виходу в попередне меню.\n\
+            >>> '))
+                    if val == Path("0"):
+                        break
+                    elif os.path.exists(val) == True:
+                        check = input(F'            -- Введіть "1" - Для підтвердження сортування папки.{val}\n\
+            -- Введіть "0" - Для виходу в попередне меню. \n\
+            >>> ')
+                    else:
+                        print("             Помилка.Такої папки не існує ")
+                        continue
+                    if check == "1":
+                        s = Scan()
+                        s.scan(val)
+                        r = ReplaseFile(val)
+                        r.replasefile_main()
+                        print(f'            Сортування файлів виконане\n\
+                               ')
+                        p = PrintResult()
+                        p.print_result()
+                    elif value == 0:
+                        continue  
+                    else:
+                        continue
+            elif  value == "0": 
+                break      
             else:
-                break
+                print ("            Такої команди не існує,введіть будь ласка повторно\n\
+                        ")
 
 normalize_init = Normalize()
 def run():
