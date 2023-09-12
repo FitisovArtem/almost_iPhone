@@ -13,7 +13,6 @@ class Note:
     тексту для дальнейшей записи в заметки.
     """
 
-
     def __init__(self, content: str, tags: str):  # Инициализация текста заметки и тега для дальнейшей обработки
         self.content = content
         self.tags = tags.split(',')
@@ -201,7 +200,7 @@ def show_all_notes(notesBook: NotesManager):
 
                             --  Введить "0" - Для повернення у попереднє меню''')
 
- 
+
     type_show = 'A'
     while True:
         if type_show == 'A':
