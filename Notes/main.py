@@ -4,7 +4,7 @@ from datetime import datetime
 import pickle
 from pathlib import Path
 from time import sleep
-
+    
 
 class Note:
 
@@ -27,12 +27,16 @@ class NotesManager(UserDict):
 
     def save_notes(self):
         with open(self.path_file_name, 'wb') as file:
+
+
+   
             pickle.dump(self.data, file)
 
     def load_notes(self):
         if not self.path_file_name.exists():
             return print("File is empty")
         with open(self.path_file_name, 'rb') as file:
+
             self.data = pickle.load(file)
 
     def add_note(self, note: Note):
@@ -47,6 +51,7 @@ class NotesManager(UserDict):
 
     def search_note(self, tag_for_search):
         title_of_result = f'Результати пошуку по запиту "{tag_for_search}" : \n'
+
         result = '\n'
         if tag_for_search is not None:
             for search_id, content_set in self.data.items():
@@ -81,6 +86,7 @@ class NotesManager(UserDict):
                 result = result + '{:^10}:  {:^15} | {:<20} | {:>10} \n'.format(in_dict[0], join_tags[:10],
                                                                                 in_dict[1][:17], dict_1)
         return result
+
 
     def edit_note(self, new_content, chosen_id_for_edit):
         self.data[chosen_id_for_edit].content = new_content
@@ -143,6 +149,7 @@ def search_notes(notesBook: NotesManager):
         input_for_search = input('\nДля повернення в попередне меню введіть 0\nВведіть слово обо текст для пошуку : ')
         if input_for_search == '':
             print('\n Запит на пошук повинен складатися хоча б з одного символа')
+
             sleep(1)
             continue
         elif input_for_search == '0':
@@ -157,6 +164,7 @@ def search_notes(notesBook: NotesManager):
                 input_for_search_choice = input('\nВиберіть дію : ')
                 if input_for_search_choice not in ['1', '0']:
                     print('\nВиберіть дію зі списка')
+
                     sleep(1)
                     continue
                 elif input_for_search_choice == '1':
@@ -170,6 +178,7 @@ def create_note(notesBook: NotesManager):
     back_button = '\nДля повернення в попередне меню введіть 0'
     while True:
         input_note = input(f'{back_button}\nВведіть текст для нотатку : ')
+
         if input_note == '0':
             break
         else:
@@ -201,6 +210,7 @@ def show_all_notes(notesBook: NotesManager):
 
                             --  Введить "0" - Для повернення у попереднє меню
             ''')
+
     type_show = 'A'
     while True:
         if type_show == 'A':
@@ -209,6 +219,7 @@ def show_all_notes(notesBook: NotesManager):
             input_todo_func = input('\nВведіть номер бажанної дії : ')
             if input_todo_func not in ['1', '2', '3', '4', '0', '5', '6']:
                 print('\n Помилка вводу, будь ласка, введіть номер зі списку')
+
                 sleep(2)
                 continue
             elif input_todo_func == '1':
@@ -233,6 +244,7 @@ def show_all_notes(notesBook: NotesManager):
             input_todo_func = input('\nВведіть номер дії зі списку : ')
             if input_todo_func not in ['1', '2', '3', '4', '0', '5', '6']:
                 print('\n Помилка вводу, будь ласка, введіть номер зі списку')
+
                 sleep(2)
                 continue
             elif input_todo_func == '1':
@@ -262,6 +274,7 @@ def show_note(notesBook: NotesManager):
 
     while True:
         input_chat_id = input("\nВведіть ID нотатку : ")
+
         if input_chat_id == '0':
             break
         else:
@@ -275,6 +288,7 @@ def show_note(notesBook: NotesManager):
                 ink = input('Введіть дію зі списка')
                 if ink not in ['1', '2', '0']:
                     print('\nВведіть корректну дію зі списка')
+
                     sleep(1)
                 elif ink == '1':
                     edit_note(notesBook, input_chat_id)
@@ -282,6 +296,7 @@ def show_note(notesBook: NotesManager):
                     notesBook.delete_note(int(input_chat_id))
                     print('\nНотаток видаленно ')
                     notesBook.save_notes()
+
                     sleep(1)
                     break
                 elif ink == '0':
@@ -293,6 +308,7 @@ def edit_mode_note(notesBook: NotesManager):
     while True:
         input_chose_id_for_edit = input(
             '\n --  Введить "0" - Для повернення у попереднє меню\nВведіть номер нотатку яких хочете редагувати : ')
+
         if input_chose_id_for_edit != '0':
             try:
                 notesBook.data[int(input_chose_id_for_edit)]
@@ -301,6 +317,7 @@ def edit_mode_note(notesBook: NotesManager):
                 sleep(1)
                 continue
             edit_note(notesBook, input_chose_id_for_edit)
+
             break
         else:
             break
@@ -311,6 +328,7 @@ def edit_note(notesBook: NotesManager, input_chose_id_for_edit):
         input_content_for_edit = input(' \nВедіть новий текст нотатку :')
         if input_content_for_edit == '':
             print('\nНотаток не може бути пустим')
+
             sleep(1)
             continue
         else:
@@ -318,12 +336,14 @@ def edit_note(notesBook: NotesManager, input_chose_id_for_edit):
             print('\nНотаток зміненний та збереженний')
             notesBook.save_notes()
             sleep(1)
+
             break
 
 
 def delete_note(notesBook: NotesManager):
     while True:
         input_chat_id_for_delete = input("\nВведіть ID нотатку : ")
+
         if input_chat_id_for_delete != '0':
             try:
                 notesBook.delete_note(int(input_chat_id_for_delete))
@@ -333,6 +353,7 @@ def delete_note(notesBook: NotesManager):
 
             print('\nНотаток видаленно ')
             notesBook.save_notes()
+
             sleep(1)
             break
         else:
@@ -354,6 +375,7 @@ def main_1():
                                     ''')
         print(note_menu_1)
         first_choose = input('Оберіть дію зі списка : ')
+
         if first_choose == '1':
             create_note(notesBook)
 
@@ -368,6 +390,7 @@ def main_1():
             break
         else:
             print('Помилка вводу, спробуйте знову')
+
             sleep(2)
 
 
