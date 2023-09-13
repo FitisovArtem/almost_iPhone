@@ -271,7 +271,6 @@ class CleanFolderMain(PrintResult): # меню користувача
                     elif os.path.exists(val) == True:
                         check = input(F'\
             -- Введіть "1" - Для підтвердження сортування папки.{val}\n\
-
             -- Введіть "0" - Для виходу в попередне меню. \n\
             >>> ')
                     else:
@@ -304,7 +303,8 @@ t = Trans()
 normalize_init = Normalize()
 def run():
     CleanFolderMain.run()
-# if __name__ == "__main__":
+if __name__ == "__main__":
+    run()
 #         normalize_init = Normalize()
 #         CleanFolderMain.run()
 
