@@ -238,6 +238,7 @@ class CleanFolderMain(PrintResult): # меню користувача
         print(F'        Вас вітає сортувальник файлів!\n\
                    ')
         while True:
+
             value = input(F'\
             -- Введіть "1" - Для сортування папки. \n\
             -- Введіть "0" - Для виходу в попередне меню. \n\
@@ -270,6 +271,7 @@ class CleanFolderMain(PrintResult): # меню користувача
                     elif os.path.exists(val) == True:
                         check = input(F'\
             -- Введіть "1" - Для підтвердження сортування папки.{val}\n\
+
             -- Введіть "0" - Для виходу в попередне меню. \n\
             >>> ')
                     else:
@@ -278,6 +280,7 @@ class CleanFolderMain(PrintResult): # меню користувача
                     if check == "1":
                         t = Trans()
                         t.trans_dict()
+
                         s = Scan()
                         s.scan(val)
                         r = ReplaseFile(val)
@@ -295,10 +298,13 @@ class CleanFolderMain(PrintResult): # меню користувача
             else:
                 print ("            Такої команди не існує,введіть будь ласка повторно\n\
                         ")
+
 t = Trans()
+
 normalize_init = Normalize()
 def run():
     CleanFolderMain.run()
 # if __name__ == "__main__":
 #         normalize_init = Normalize()
 #         CleanFolderMain.run()
+
