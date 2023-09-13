@@ -223,7 +223,7 @@ class PrintResult(Scan):
     self.MP3_AUDIO, self.OGG_AUDIO, self.WAV_AUDIO, self.AMR_AUDIO, self.ZIP_ARCHIVES, self.GZ_ARCHIVES, self.TAR_ARCHIVES,  
     self.FOLDERS,
     self.MY_OTHER)
-        print(f"                    Список знайдених файлів\n \
+        print(f"                    Список знайдених файлів та папок \n \
               ")
         for i in result_lists:
             
