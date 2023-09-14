@@ -271,7 +271,6 @@ class CleanFolderMain(PrintResult): # меню користувача
                     elif os.path.exists(val) == True:
                         check = input(F'\
             -- Введіть "1" - Для підтвердження сортування папки.{val}\n\
-
             -- Введіть "0" - Для виходу в попередне меню. \n\
             >>> ')
                     else:
