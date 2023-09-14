@@ -223,7 +223,7 @@ class PrintResult(Scan):
     self.MP3_AUDIO, self.OGG_AUDIO, self.WAV_AUDIO, self.AMR_AUDIO, self.ZIP_ARCHIVES, self.GZ_ARCHIVES, self.TAR_ARCHIVES,  
     self.FOLDERS,
     self.MY_OTHER)
-        print(f"                    Список знайдених файлів\n \
+        print(f"                    Список знайдених файлів та папок \n \
               ")
         for i in result_lists:
             
@@ -304,7 +304,8 @@ t = Trans()
 normalize_init = Normalize()
 def run():
     CleanFolderMain.run()
-# if __name__ == "__main__":
+if __name__ == "__main__":
+    run()
 #         normalize_init = Normalize()
 #         CleanFolderMain.run()
 
